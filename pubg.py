@@ -9,6 +9,7 @@ class PUBG:
                 self.platform = platform
                 self.player_url = 'https://api.pubg.com/shards/{platform}/players?filter[{by}]={value}'
                 self.seasons_url = 'https://api.pubg.com/shards/steam/seasons'
+                self.player_season_url = 'https://api.pubg.com/shards/steam/players/{playerId}/seasons/{seasonId}'
 
         def get_player(self, player_name):
                 response = requests.get(self.player_url.format(platform=self.platform, by='playerNames', value=player_name), headers=self.header)
@@ -67,6 +68,13 @@ class PUBG:
                 
                 return seasons_list
 
+        def get_player_stats_for_season(self, player_id, season_id):
+                response = requests.get(self.player_season_url.format(playerId=player_id, seasonId=season_id), headers=self.header)
+                return PlayerSeasonStats(response.json()['data']['attributes']['gameModeStats'])
+
+
+
+                
 class Player:
         def __init__(self, **kwargs):
                 for attribute, value in kwargs.items():
@@ -77,6 +85,21 @@ class Season:
          def __init__(self, **kwargs):
                 for attribute, value in kwargs.items():
                         setattr(self, attribute, value)
+
+#playerid, seasonid, links, gamemodestats
+class PlayerSeasonStats:
+        def __init__(self, gameModeStats):
+                self.gameModeStats = self.GameModeStats(gameModeStats)
+                
+        class GameModeStats:
+                def __init__(self, gameModeStats):
+                        self.duo = gameModeStats['duo']
+                        self.duo_fpp = gameModeStats['duo-fpp']
+                        self.solo = gameModeStats['solo']
+                        self.solo_fpp = gameModeStats['solo-fpp']
+                        self.squad = gameModeStats['squad']
+                        self.squad_fpp = gameModeStats['squad-fpp']
+                        
 
 
 

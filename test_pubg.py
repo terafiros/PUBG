@@ -7,13 +7,7 @@ key = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJqdGkiOiIwMDQzNWU1MC0xODZiLTAxMzct
 plat = 'steam'
 
 
-p = PUBG(key, plat)
-
-#3 dados, meta, links e data. meta -> vazio, links -> com o link da consulta e data -> o que interessa
-
-
-
-
+pubg = PUBG(key, plat)
 
 header = {
     'Authorization': 'Bearer ' + key,
@@ -27,15 +21,9 @@ header2 = {
 
 url = "https://api.pubg.com/shards/steam/players/{playerId}/seasons/{seasonId}"
 
+player = pubg.get_player('terafiros')
+season = pubg.get_seasons()[-1]
 
+stats = pubg.get_player_stats_for_season(player.idd, season.idd)
 
-player = p.get_player('terafiros')
-
-
-for season in p.get_seasons():
-    response = requests.get(url.format(playerId=player.idd, seasonId=season.idd), headers=header2)
-    print(response.text)
-    print('\n\n\n\n\n\n')
-
-
- 
+stats.gameModeStats.squad_fpp
