@@ -25,15 +25,17 @@ header2 = {
     'Accept': 'application/vnd.api+json'
     }
 
-url = "https://api.pubg.com/shards/steam/seasons"
-
-#response = requests.get(url, headers=header2)
-#print(response.text)
-
-for s in p.get_seasons():
-    print(s)
+url = "https://api.pubg.com/shards/steam/players/{playerId}/seasons/{seasonId}"
 
 
+
+player = p.get_player('terafiros')
+
+
+for season in p.get_seasons():
+    response = requests.get(url.format(playerId=player.idd, seasonId=season.idd), headers=header2)
+    print(response.text)
+    print('\n\n\n\n\n\n')
 
 
  
