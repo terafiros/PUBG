@@ -10,6 +10,7 @@ class PUBG:
                 self.player_url = 'https://api.pubg.com/shards/{platform}/players?filter[{by}]={value}'
                 self.seasons_url = 'https://api.pubg.com/shards/steam/seasons'
                 self.player_season_url = 'https://api.pubg.com/shards/steam/players/{playerId}/seasons/{seasonId}'
+                self.lifetime_url = "https://api.pubg.com/shards/steam/players/{playerId}/seasons/lifetime"
 
         def get_player(self, player_name):
                 response = requests.get(self.player_url.format(platform=self.platform, by='playerNames', value=player_name), headers=self.header)
@@ -43,7 +44,7 @@ class PUBG:
                 for ma in data_ma:
                         matches_id.append(ma['id'])
 
-                attrs['matches_id'] = matches_id
+                attrs['matches_ids'] = matches_id
 
                 return Player(**attrs)
 
@@ -73,7 +74,9 @@ class PUBG:
                 return PlayerSeasonStats(response.json()['data']['attributes']['gameModeStats'])
 
 
-
+        def get_lifetime_stats(self, player_id):
+                response = requests.get(self.lifetime_url.format(playerId=player_id),headers=self.header)
+                return response.json()
                 
 class Player:
         def __init__(self, **kwargs):
@@ -86,7 +89,7 @@ class Season:
                 for attribute, value in kwargs.items():
                         setattr(self, attribute, value)
 
-#playerid, seasonid, links, gamemodestats
+
 class PlayerSeasonStats:
         def __init__(self, gameModeStats):
                 self.gameModeStats = self.GameModeStats(gameModeStats)
@@ -101,5 +104,7 @@ class PlayerSeasonStats:
                         self.squad_fpp = gameModeStats['squad-fpp']
                         
 
+class LifeTimeStats:
+        pass
 
 
