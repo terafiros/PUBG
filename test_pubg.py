@@ -27,5 +27,13 @@ header2 = {
 
 url = "https://api.pubg.com/shards/steam/seasons"
 
-response = requests.get(url, headers=header2)
-print(response.text)
+#response = requests.get(url, headers=header2)
+#print(response.text)
+
+for s in p.get_seasons():
+    print(s)
+
+
+
+
+ 
