@@ -19,14 +19,21 @@ header2 = {
     'Accept': 'application/vnd.api+json'
     }
 
-url = "https://api.pubg.com/shards/steam/players/{idd}/seasons/lifetime"
+url = "https://api.pubg.com/shards/steam/matches/11e5041a-71a5-4612-9587-0ad22cf7b954"
 
 player = pubg.get_player('Tecnosh')
-seasons = pubg.get_seasons()
 
-#resp = requests.get(url.format(idd=player.idd), headers=header2)
+#data, included, links, meta
+'''
+data
+---'type'
+---'id'
+---'attributes'
+---'relationships'
+---'links'
+'''
 
-resp = pubg.get_lifetime_stats(player.idd)
-print(resp.gameModeStats.squad_fpp)
 
+
+print(pubg.get_match(player.matches_ids[-1]).asset.id)
 
