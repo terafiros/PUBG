@@ -27,6 +27,6 @@ seasons = pubg.get_seasons()
 #resp = requests.get(url.format(idd=player.idd), headers=header2)
 
 resp = pubg.get_lifetime_stats(player.idd)
-print(resp)
+print(resp.gameModeStats.squad_fpp)
 
 

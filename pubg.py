@@ -19,27 +19,25 @@ class PUBG:
                 return self.json_2_player(player_json)
 
         def json_2_player(self, player_json):
-                linkss = player_json['links']
+                
                 attrs = {}
-                attrs['url_name_search'] = linkss['self']
+                
+                attrs['url_name_search'] = player_json['links']['self']
 
-                datas = player_json['data']
-                datas_dict = datas[0]
-                attrs['typee'] = datas_dict['type']
-                attrs['idd'] = datas_dict['id']
-                links = datas_dict['links']
-                attrs['url_id_search'] = links['self']
-                attributes = datas_dict['attributes']
-                attrs['titleId'] = attributes["titleId"]
-                attrs['shardId'] = attributes["shardId"]
-                attrs['createdAt'] = attributes["createdAt"]
-                attrs['updatedAt'] = attributes["updatedAt"]
-                attrs['name'] = attributes["name"]
+                
+                attrs['typee'] = player_json['data'][0]['type']
+                attrs['idd'] = player_json['data'][0]['id']
+                
+                
+                attrs['url_id_search'] = player_json['data'][0]['links']['self']
+               
+                attrs['titleId'] = player_json['data'][0]['attributes']["titleId"]
+                attrs['shardId'] = player_json['data'][0]['attributes']["shardId"]
+                attrs['createdAt'] = player_json['data'][0]['attributes']["createdAt"]
+                attrs['updatedAt'] = player_json['data'][0]['attributes']["updatedAt"]
+                attrs['name'] = player_json['data'][0]['attributes']["name"]
 
-                relationships = datas_dict['relationships']
-                matches = relationships['matches']
-                data_ma = matches['data']
-
+                data_ma = player_json['data'][0]['relationships']['matches']['data']
                 matches_id = []
                 for ma in data_ma:
                         matches_id.append(ma['id'])
@@ -76,7 +74,7 @@ class PUBG:
 
         def get_lifetime_stats(self, player_id):
                 response = requests.get(self.lifetime_url.format(playerId=player_id),headers=self.header)
-                return response.json()
+                return LifeTimeStats(response.json()['data']['attributes']['gameModeStats'])
                 
 class Player:
         def __init__(self, **kwargs):
@@ -92,19 +90,19 @@ class Season:
 
 class PlayerSeasonStats:
         def __init__(self, gameModeStats):
-                self.gameModeStats = self.GameModeStats(gameModeStats)
+                self.gameModeStats = GameModeStats(gameModeStats)
                 
-        class GameModeStats:
-                def __init__(self, gameModeStats):
-                        self.duo = gameModeStats['duo']
-                        self.duo_fpp = gameModeStats['duo-fpp']
-                        self.solo = gameModeStats['solo']
-                        self.solo_fpp = gameModeStats['solo-fpp']
-                        self.squad = gameModeStats['squad']
-                        self.squad_fpp = gameModeStats['squad-fpp']
-                        
-
+class GameModeStats:
+        def __init__(self, gameModeStats):
+                self.duo = gameModeStats['duo']
+                self.duo_fpp = gameModeStats['duo-fpp']
+                self.solo = gameModeStats['solo']
+                self.solo_fpp = gameModeStats['solo-fpp']
+                self.squad = gameModeStats['squad']
+                self.squad_fpp = gameModeStats['squad-fpp']
+                
 class LifeTimeStats:
-        pass
-
+        def __init__(self, gameModeStats):
+                self.gameModeStats = GameModeStats(gameModeStats)
+        
 
