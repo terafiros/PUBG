@@ -114,8 +114,23 @@ class PUBG:
                                 attrs_r['participants'] = participants
                                 rosters.append(Roster(**attrs_r))
 
+                        elif element['type'] == 'asset':
+                                attrs_a = {}
+                                attrs_a['type'] = 'asset'
+                                attrs_a['id'] = element['id']
+                                attrs_a['name'] = element['attributes']['name']
+                                attrs_a['description'] = element['attributes']['description']
+                                attrs_a['createdAt'] = element['attributes']['createdAt']
+                                attrs_a['URL'] = element['attributes']['URL']
+
+                                attrs['asset'] = Asset(**attrs_a)
+
+
                 attrs['rosters'] = rosters
-                attrs['asset'] = Asset(**resp_json['data']['relationships']['assets']['data'][0])
+
+
+
+
 
 
 
