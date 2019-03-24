@@ -1,44 +1,6 @@
-from pygments.lexer import include
-
-from pubg import PUBG, Roster, Participant
+from pubg import PUBG
 import requests
-
-
-
-def funcc(included):
-    rosters = []
-
-    for element in included:
-        if element['type'] == 'roster':
-            attrs_r = {}
-            attrs_r['type'] = 'roster'
-            attrs_r['id'] = element['id']
-            attrs_r['won'] = element['attributes']['won']
-            attrs_r['shard_id'] = element['attributes']['shardId']
-            attrs_r['rank'] = element['attributes']['stats']['rank']
-            attrs_r['team_id'] = element['attributes']['stats']['teamId']
-
-            participants = []
-
-            for part in element['relationships']['participants']['data']:
-                part_id = part['id']
-
-                for element in included:
-                    if part_id == element['id']:
-                        attrs_p = {}
-                        attrs_p['type'] = element['type']
-                        attrs_p['id'] = element['id']
-                        attrs_p['shard_id'] = element['attributes']['shardId']
-                        attrs_p['stats'] = element['attributes']['stats']
-
-                        participants.append(Participant(**attrs_p))
-                        break
-
-            attrs_r['participants'] = participants
-            rosters.append(Roster(**attrs_r))
-
-    return rosters
-
+from PIL import Image
 
 if __name__ == '__main__':
 
@@ -49,20 +11,44 @@ if __name__ == '__main__':
         'Authorization': 'Bearer ' + key,
         'Accept': 'application/vnd.api+json'
     }
-    url = "https://api.pubg.com/shards/steam/matches/11e5041a-71a5-4612-9587-0ad22cf7b954"
+    #url = "https://api.pubg.com/shards/steam/matches/11e5041a-71a5-4612-9587-0ad22cf7b954" 2019-03-09T03:05:38Z
+    url = 'https://api.pubg.com/shards/steam/samples'#?filter[createdAt-start]=2019-03-23T10:49:00Z'
     rsp = requests.get(url, headers=header)
+    m_id = 'e54ce173-3fe1-4059-982c-f260d737b177'
+    
+   # player = pubg.get_player('Tecnosh')
+    match = pubg.get_match(m_id)
+    
+    #print(match.id)
+   # print(match.mapName)
+   # print(match.createdAt)
+   # print(match.duration)
+   # print(match.gameMode)
+   # print(match.asset.URL)
 
-    included = rsp.json()['included']
+    #4326
+    erangel = Image.open('nova.png')
+    kill = Image.open('Death.png')
+    
+    telemetry = requests.get(match.asset.URL)
+    tele_json =  telemetry.json()
 
-    rosters = funcc(included)
-
-    player = pubg.get_player('Tecnosh')
-    m = pubg.get_match('11e5041a-71a5-4612-9587-0ad22cf7b954')
-    print(len(m.rosters))
     count = 0
-    for roster in m.rosters:
-        count += len(roster.participants)
 
+    for tele in tele_json:
+        if tele['_T'] == 'LogPlayerKill': 
+            count += 1
+            
+            x = tele['victim']['location']['x']
+            y = tele['victim']['location']['y']
+            
+            ox = 2048 * x / 816000
+            oy = 2048 * y / 816000
+                
+            erangel.paste(kill, (int(ox),int(oy)), kill)
+            
+            
     print(count)
-    print(m.asset.URL)
+    erangel.show()
+    
 
