@@ -22,8 +22,8 @@ class PUBG:
         def json_2_player(self, player_json):
                 attrs = {}
                 attrs['url_name_search'] = player_json['links']['self']
-                attrs['typee'] = player_json['data'][0]['type']
-                attrs['idd'] = player_json['data'][0]['id']
+                attrs['type'] = player_json['data'][0]['type']
+                attrs['id'] = player_json['data'][0]['id']
                 attrs['url_id_search'] = player_json['data'][0]['links']['self']
                 attrs['titleId'] = player_json['data'][0]['attributes']["titleId"]
                 attrs['shardId'] = player_json['data'][0]['attributes']["shardId"]
