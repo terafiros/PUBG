@@ -74,8 +74,11 @@ def com_api():
     #seasons_request(pubg)
     #seasons_json(pubg)
     
-    player_season_stats_request(pubg)
+    #player_season_stats_request(pubg)
     #player_season_stats_json(pubg)
+    
+    lifetime_request(pubg)
+    lifetime_json(pubg)
 
 def player_json(pubg):
     with open('terafiros.json') as data:
@@ -135,7 +138,7 @@ def player_season_stats_request(pubg):
         player_id = pubg.get_player_from_json(json.load(data)).id
     
     player_season_stats = pubg.get_player_stats_for_season(player_id, season_id)
-    for elem in player_season_stats.gameModeStats.duo:
+    for elem in player_season_stats.gameModeStats.squad_fpp:
         print(elem, ':', player_season_stats.gameModeStats.squad_fpp[elem])
     
 
@@ -151,10 +154,28 @@ def player_season_stats_json(pubg):
         
     with open(player_id + "_" + season_id + ".json") as data:
         player_season_stats = pubg.get_player_stats_for_season_from_json(json.load(data))
+        for elem in player_season_stats.gameModeStats.squad_fpp:
+            print(elem, ':', player_season_stats.gameModeStats.squad_fpp[elem])
         
     
-
-
+def lifetime_request(pubg):
+    player_id = ''
+    with open('terafiros.json') as data:
+        player_id = pubg.get_player_from_json(json.load(data)).id
+    lifetime = pubg.get_lifetime_stats(player_id)
+    for elem in lifetime.gameModeStats.squad_fpp:
+        print(elem, ':', lifetime.gameModeStats.squad_fpp[elem])
+    
+def lifetime_json(pubg):
+    player_id = ''
+    with open('terafiros.json') as data:
+        player_id = pubg.get_player_from_json(json.load(data)).id
+        
+    with open(player_id + '_lifetime_stats.json') as data:
+        lifetime = pubg.get_lifetime_stats_from_json(json.load(data))
+        for elem in lifetime.gameModeStats.squad_fpp:
+            print(elem, ':', lifetime.gameModeStats.squad_fpp[elem])
+    
 if __name__ == '__main__':
     #sem_api()
     com_api()

@@ -1,6 +1,6 @@
 import requests
 from constants import URLS
-from models import Player, Season, PlayerSeasonStats
+from models import Player, Season, PlayerSeasonStats, LifeTimeStats
 
 
 class PUBG:
@@ -83,9 +83,17 @@ class PUBG:
 
     
     
-    def get_lifetime_stats(self, player_id):
-        response = requests.get(self.lifetime_url.format(playerId=player_id),headers=self.header)
-        return LifeTimeStats(response.json()['data']['attributes']['gameModeStats'])
+    def get_lifetime_stats(self, player_id, save_in_json = False):
+        response = requests.get(URLS.lifetime_url.value.format(playerId=player_id),headers=self.header)
+        if save_in_json:
+            file = open(player_id + '_lifetime_stats.json', 'w+')
+            file.write(response.text)
+            file.close()
+        
+        return self.get_lifetime_stats_from_json(response.json())
+    
+    def get_lifetime_stats_from_json(self, lifetime_json):
+         return LifeTimeStats(lifetime_json['data']['attributes']['gameModeStats'])
 
     def get_match(self, match_id):
         response = requests.get(self.match_url.format(matchId=match_id), headers=self.header)
@@ -157,9 +165,7 @@ class PUBG:
                 
 
                 
-class LifeTimeStats:
-    def __init__(self, gameModeStats):
-        self.gameModeStats = GameModeStats(gameModeStats)
+
 
 class Match:
     def __init__(self, **kwargs):
