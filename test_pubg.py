@@ -1,11 +1,12 @@
 from pubg import PUBG
 import requests
 from PIL import Image, ImageDraw
+from constants import URLS
 
 from telemetry import Telemetry
+import json
 
-if __name__ == '__main__':
-
+def sem_api():
     key = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJqdGkiOiIwMDQzNWU1MC0xODZiLTAxMzctNzM1OC0wZTM1MzFmZGJkNWEiLCJpc3MiOiJnYW1lbG9ja2VyIiwiaWF0IjoxNTUwNzk3MTU2LCJwdWIiOiJibHVlaG9sZSIsInRpdGxlIjoicHViZyIsImFwcCI6InB1YmctdGVhY2hlciJ9.zM2r5FJZP3IkcRVVFN1ApBDesf-JJn3QPAZyxNr2QR4'
     plat = 'steam'
     pubg = PUBG(key, plat)
@@ -26,13 +27,13 @@ if __name__ == '__main__':
     print(match.gameMode)
 
     # 4326
-    erangel = Image.open('nova.png')
-    miramar = Image.open('miramar.jpg')
+    erangel = Image.open('maps/nova.png')
+    miramar = Image.open('maps/miramar.jpg')
 
     print(miramar.mode)
 
-    kill = Image.open('Death.png')
-    position = Image.open('position.png')
+    kill = Image.open('maps/Death.png')
+    position = Image.open('maps/position.png')
 
     telemetry = requests.get(match.asset.URL)
     print(match.asset.URL)
@@ -62,3 +63,46 @@ if __name__ == '__main__':
     '''
 
     miramar.show()
+def com_api():
+    key = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJqdGkiOiIwMDQzNWU1MC0xODZiLTAxMzctNzM1OC0wZTM1MzFmZGJkNWEiLCJpc3MiOiJnYW1lbG9ja2VyIiwiaWF0IjoxNTUwNzk3MTU2LCJwdWIiOiJibHVlaG9sZSIsInRpdGxlIjoicHViZyIsImFwcCI6InB1YmctdGVhY2hlciJ9.zM2r5FJZP3IkcRVVFN1ApBDesf-JJn3QPAZyxNr2QR4'
+    plat = 'steam'
+    pubg = PUBG(key, plat)
+    
+    player_json(pubg)
+    player_req(pubg)
+    
+    
+        
+   
+
+def player_json(pubg):
+    with open('terafiros.json') as data:
+        player = pubg.get_player_from_json(json.load(data))
+        print(player.name)
+        print(player.type)
+        print(player.id)
+        print(player.updatedAt)
+        print(player.titleId)
+        print(player.shardId)
+        print(player.createdAt)
+        print( player.matches)
+        print(player.name_search_url)
+        print(player.id_search_url)
+
+def player_req(pubg):
+    player = pubg.get_player('terafiros')
+    print(player.name)
+    print(player.type)
+    print(player.id)
+    print(player.updatedAt)
+    print(player.titleId)
+    print(player.shardId)
+    print(player.createdAt)
+    print( player.matches)
+    print(player.name_search_url)
+    print(player.id_search_url)
+    
+if __name__ == '__main__':
+    #sem_api()
+    com_api()
+    
