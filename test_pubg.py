@@ -1,7 +1,6 @@
 from pubg import PUBG
 import requests
 from PIL import Image, ImageDraw
-from constants import URLS
 
 from telemetry import Telemetry
 import json
@@ -63,17 +62,17 @@ def sem_api():
     '''
 
     miramar.show()
+
 def com_api():
     key = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJqdGkiOiIwMDQzNWU1MC0xODZiLTAxMzctNzM1OC0wZTM1MzFmZGJkNWEiLCJpc3MiOiJnYW1lbG9ja2VyIiwiaWF0IjoxNTUwNzk3MTU2LCJwdWIiOiJibHVlaG9sZSIsInRpdGxlIjoicHViZyIsImFwcCI6InB1YmctdGVhY2hlciJ9.zM2r5FJZP3IkcRVVFN1ApBDesf-JJn3QPAZyxNr2QR4'
     plat = 'steam'
     pubg = PUBG(key, plat)
     
-    player_json(pubg)
-    player_req(pubg)
+    #player_request(pubg)
+    #player_json(pubg)
     
-    
-        
-   
+    #seasons_request(pubg)
+    #seasons_json(pubg)
 
 def player_json(pubg):
     with open('terafiros.json') as data:
@@ -89,7 +88,7 @@ def player_json(pubg):
         print(player.name_search_url)
         print(player.id_search_url)
 
-def player_req(pubg):
+def player_request(pubg):
     player = pubg.get_player('terafiros')
     print(player.name)
     print(player.type)
@@ -101,6 +100,25 @@ def player_req(pubg):
     print( player.matches)
     print(player.name_search_url)
     print(player.id_search_url)
+    
+def seasons_request(pubg):
+    seasons = pubg.get_seasons()
+    print(len(seasons))
+    for season in seasons:
+        print(season.id)
+        print(season.type)
+        print(season.isCurrentSeason)
+        print(season.isOffseason)
+
+def seasons_json(pubg):
+    with open('seasons.json') as data:
+        seasons = pubg.get_seasons_from_json(json.load(data))
+        print(len(seasons))
+        for season in seasons:
+            print(season.id)
+            print(season.type)
+            print(season.isCurrentSeason)
+            print(season.isOffseason)
     
 if __name__ == '__main__':
     #sem_api()

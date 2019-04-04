@@ -1,5 +1,6 @@
 import requests
 from constants import URLS
+from models import Player, Season
 
 
 class PUBG:
@@ -45,24 +46,28 @@ class PUBG:
 
         return Player(**attrs)
 
-    def get_seasons(self):
-        response = requests.get(self.seasons_url, headers=self.header)
+    def get_seasons(self, save_in_json = False):
+        response = requests.get(URLS.seasons_url.value, headers=self.header)
         seasons_json = response.json()
+        if save_in_json:
+            file = open('seasons.json', 'w+')
+            file.write(response.text)
+            file.close()
                 
-        return self.create_seasons_list(seasons_json)
+        return self.get_seasons_from_json(seasons_json)
 
-    def create_seasons_list(self, seasons_json):
+    def get_seasons_from_json(self, seasons_json):
         seasons_list = []
         data = seasons_json['data']
         attrs = {}
         for season in data:
-            attrs['typee'] = season['type']
-            attrs['idd'] = season['id']
+            attrs['type'] = season['type']
+            attrs['id'] = season['id']
             attrs['isCurrentSeason'] = season['attributes']['isCurrentSeason']
             attrs['isOffseason'] = season['attributes']['isOffseason']
             seasons_list.append(Season(**attrs))
 
-            return seasons_list
+        return seasons_list
 
     def get_player_stats_for_season(self, player_id, season_id):
         response = requests.get(self.player_season_url.format(playerId=player_id, seasonId=season_id), headers=self.header)
@@ -135,24 +140,8 @@ class PUBG:
         return Match(**attrs)
 
         
-class Player:
-    def __init__(self, type = '', id = '', updatedAt = '', name = '', titleId = '', shardId = '', createdAt = '', matches = [], name_search_url = '', id_search_url = '' ):
-        self.type = type
-        self.id = id
-        self.updatedAt = updatedAt
-        self.name = name
-        self.titleId = titleId
-        self.shardId = shardId
-        self.createdAt = createdAt
-        self.matches = matches
-        self.name_search_url = name_search_url
-        self.id_search_url = id_search_url
 
 
-class Season:
-    def __init__(self, **kwargs):
-        for attribute, value in kwargs.items():
-            setattr(self, attribute, value)
 
 
 class PlayerSeasonStats:
