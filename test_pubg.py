@@ -73,6 +73,9 @@ def com_api():
     
     #seasons_request(pubg)
     #seasons_json(pubg)
+    
+    player_season_stats_request(pubg)
+    #player_season_stats_json(pubg)
 
 def player_json(pubg):
     with open('terafiros.json') as data:
@@ -119,7 +122,39 @@ def seasons_json(pubg):
             print(season.type)
             print(season.isCurrentSeason)
             print(season.isOffseason)
+
+def player_season_stats_request(pubg):
+    season_id = ''
+    player_id = ''
     
+    with open('seasons.json') as data:
+        seasons = pubg.get_seasons_from_json(json.load(data))
+        season_id = seasons[-1].id
+        
+    with open('terafiros.json') as data:
+        player_id = pubg.get_player_from_json(json.load(data)).id
+    
+    player_season_stats = pubg.get_player_stats_for_season(player_id, season_id)
+    for elem in player_season_stats.gameModeStats.duo:
+        print(elem, ':', player_season_stats.gameModeStats.squad_fpp[elem])
+    
+
+def player_season_stats_json(pubg):
+    season_id = ''
+    player_id = ''
+    with open('seasons.json') as data:
+        seasons = pubg.get_seasons_from_json(json.load(data))
+        season_id = seasons[-1].id
+        
+    with open('terafiros.json') as data:
+        player_id = pubg.get_player_from_json(json.load(data)).id
+        
+    with open(player_id + "_" + season_id + ".json") as data:
+        player_season_stats = pubg.get_player_stats_for_season_from_json(json.load(data))
+        
+    
+
+
 if __name__ == '__main__':
     #sem_api()
     com_api()

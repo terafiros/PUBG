@@ -1,6 +1,6 @@
 import requests
 from constants import URLS
-from models import Player, Season
+from models import Player, Season, PlayerSeasonStats
 
 
 class PUBG:
@@ -69,11 +69,20 @@ class PUBG:
 
         return seasons_list
 
-    def get_player_stats_for_season(self, player_id, season_id):
-        response = requests.get(self.player_season_url.format(playerId=player_id, seasonId=season_id), headers=self.header)
-        return PlayerSeasonStats(response.json()['data']['attributes']['gameModeStats'])
+    def get_player_stats_for_season(self, player_id, season_id, save_in_json = False):
+        response = requests.get(URLS.player_season_url.value.format(playerId=player_id, seasonId=season_id), headers=self.header)
+        if save_in_json:
+            file = open(player_id + '_' + season_id + '.json', 'w+')
+            file.write(response.text)
+            file.close()
+        
+        return self.get_player_stats_for_season_from_json(response.json())
+    
+    def get_player_stats_for_season_from_json(self, player_season_json):
+        return PlayerSeasonStats(player_season_json['data']['attributes']['gameModeStats'])
 
-
+    
+    
     def get_lifetime_stats(self, player_id):
         response = requests.get(self.lifetime_url.format(playerId=player_id),headers=self.header)
         return LifeTimeStats(response.json()['data']['attributes']['gameModeStats'])
@@ -144,18 +153,9 @@ class PUBG:
 
 
 
-class PlayerSeasonStats:
-    def __init__(self, gameModeStats):
-        self.gameModeStats = GameModeStats(gameModeStats)
+
                 
-class GameModeStats:
-    def __init__(self, gameModeStats):
-        self.duo = gameModeStats['duo']
-        self.duo_fpp = gameModeStats['duo-fpp']
-        self.solo = gameModeStats['solo']
-        self.solo_fpp = gameModeStats['solo-fpp']
-        self.squad = gameModeStats['squad']
-        self.squad_fpp = gameModeStats['squad-fpp']
+
                 
 class LifeTimeStats:
     def __init__(self, gameModeStats):

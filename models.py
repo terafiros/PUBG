@@ -17,3 +17,16 @@ class Season:
         self.type = type
         self.isOffseason = isOffseason
         self.isCurrentSeason = isCurrentSeason
+        
+class PlayerSeasonStats:
+    def __init__(self, gameModeStats):
+        self.gameModeStats = GameModeStats(gameModeStats)
+        
+class GameModeStats:
+    def __init__(self, gameModeStats):
+        self.duo = gameModeStats['duo']
+        self.duo_fpp = gameModeStats['duo-fpp']
+        self.solo = gameModeStats['solo']
+        self.solo_fpp = gameModeStats['solo-fpp']
+        self.squad = gameModeStats['squad']
+        self.squad_fpp = gameModeStats['squad-fpp']
