@@ -34,3 +34,43 @@ class PlayerSeasonStats:
 class LifeTimeStats:
     def __init__(self, gameModeStats):
         self.gameModeStats = GameModeStats(gameModeStats)
+
+class Match:
+    def __init__(self, type = '', id = '', createdAt = '', duration = 0, gameMode = '', mapName = '', isCustomMatch = False, seasonState = '', shardId = '', titleId = '', asset = None, rosters = []):
+        self.type = type
+        self.id = id
+        self.createdAt = createdAt
+        self.duration = duration
+        self.gameMode = gameMode
+        self.mapName = mapName
+        self.isCustomMatch =  isCustomMatch
+        self.seasonState = seasonState
+        self.shardId = shardId
+        self.titleId = titleId
+        self.asset = asset
+        self.rosters = rosters
+
+class Roster:
+    def __init__(self, type = '', id = '', rank = 0, teamId = 0, won = False, shardId = '', participants = []):
+        self.type = type
+        self.id = id
+        self.rank = rank
+        self.teamId = teamId
+        self.won = won
+        self.shardId = shardId
+        self.participants = participants
+
+class Participant:
+    def __init__(self, type = '', id = '', shardId = '', stats = {}):
+        self.type = type
+        self.id = id
+        self.shardId = shardId
+        self.stats = stats
+
+class Asset:
+    def __init__(self, type = '', id = '', url = '', createdAt = '', name = ''):
+        self.type = type
+        self.id = id
+        self.url = url
+        self.createdAt = createdAt
+        self.name = name

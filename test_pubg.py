@@ -77,8 +77,11 @@ def com_api():
     #player_season_stats_request(pubg)
     #player_season_stats_json(pubg)
     
-    lifetime_request(pubg)
-    lifetime_json(pubg)
+    #lifetime_request(pubg)
+    #lifetime_json(pubg)
+    
+    #match_request(pubg)
+    match_json(pubg)
 
 def player_json(pubg):
     with open('terafiros.json') as data:
@@ -175,6 +178,74 @@ def lifetime_json(pubg):
         lifetime = pubg.get_lifetime_stats_from_json(json.load(data))
         for elem in lifetime.gameModeStats.squad_fpp:
             print(elem, ':', lifetime.gameModeStats.squad_fpp[elem])
+            
+def match_request(pubg):
+    match_id = ''
+    with open('terafiros.json') as data:
+        match_id = pubg.get_player_from_json(json.load(data)).matches[-1]
+        
+    match = pubg.get_match(match_id)
+    print(match.id)
+    print(match.mapName)
+    print(match.createdAt)
+    print(match.duration)
+    print(match.gameMode)
+    print(match.seasonState)
+    print(match.shardId)
+    print(match.type)
+    print(match.titleId)
+    print(match.isCustomMatch)
+    print(match.asset)
+    for roster in match.rosters:
+        print(roster.type)
+        print(roster.id)
+        print(roster.rank)
+        print(roster.teamId)
+        print(roster.won)
+        print(roster.shardId)
+        for part in roster.participants:
+            print(part.id)
+            print(part.type)
+            print(part.shardId)
+            print(part.stats)
+        
+
+def match_json(pubg):
+    match_id = ''
+    with open('terafiros.json') as data:
+        match_id = pubg.get_player_from_json(json.load(data)).matches[-1]
+        
+    with open(match_id + '.json') as data:
+        match = pubg.get_match_from_json(json.load(data))
+        print(match.id)
+        print(match.mapName)
+        print(match.createdAt)
+        print(match.duration)
+        print(match.gameMode)
+        print(match.seasonState)
+        print(match.shardId)
+        print(match.type)
+        print(match.titleId)
+        print(match.isCustomMatch)
+        print(match.asset.id)
+        print(match.asset.type)
+        print(match.asset.name)
+        print(match.asset.url)
+        print(match.asset.createdAt)
+        
+        for roster in match.rosters:
+            print(roster.type)
+            print(roster.id)
+            print(roster.rank)
+            print(roster.teamId)
+            print(roster.won)
+            print(roster.shardId)
+            for part in roster.participants:
+                print(part.id)
+                print(part.type)
+                print(part.shardId)
+                print(part.stats)
+    
     
 if __name__ == '__main__':
     #sem_api()

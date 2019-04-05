@@ -1,6 +1,6 @@
 import requests
 from constants import URLS
-from models import Player, Season, PlayerSeasonStats, LifeTimeStats
+from models import Player, Season, PlayerSeasonStats, LifeTimeStats, Match, Roster, Participant, Asset
 
 
 class PUBG:
@@ -93,25 +93,34 @@ class PUBG:
         return self.get_lifetime_stats_from_json(response.json())
     
     def get_lifetime_stats_from_json(self, lifetime_json):
-         return LifeTimeStats(lifetime_json['data']['attributes']['gameModeStats'])
+        return LifeTimeStats(lifetime_json['data']['attributes']['gameModeStats'])
 
-    def get_match(self, match_id):
-        response = requests.get(self.match_url.format(matchId=match_id), headers=self.header)
+    def get_match(self, match_id, save_in_json = False):
+        response = requests.get(URLS.match_url.value.format(matchId=match_id), headers=self.header)
+        if save_in_json:
+            file = open(match_id + '.json', 'w+')
+            file.write(response.text)
+            file.close()
+            
+        return self.get_match_from_json(response.json())
+            
+        
+    
+    def get_match_from_json(self, match_json):
         attrs = {}
-        resp_json = response.json()
-        attrs['typee'] = resp_json['data']['type']
-        attrs['id'] = resp_json['data']['id']
-        attrs['titleId'] = resp_json['data']['attributes']['titleId']
-        attrs['shardId'] = resp_json['data']['attributes']['shardId']
-        attrs['mapName'] = resp_json['data']['attributes']['mapName']
-        attrs['seasonState'] = resp_json['data']['attributes']['seasonState']
-        attrs['duration'] = resp_json['data']['attributes']['duration']
-        attrs['gameMode'] = resp_json['data']['attributes']['gameMode']
-        attrs['isCustomMatch'] = resp_json['data']['attributes']['isCustomMatch']
-        attrs['createdAt'] = resp_json['data']['attributes']['createdAt']
+        attrs['type'] = match_json['data']['type']
+        attrs['id'] = match_json['data']['id']
+        attrs['titleId'] = match_json['data']['attributes']['titleId']
+        attrs['shardId'] = match_json['data']['attributes']['shardId']
+        attrs['mapName'] = match_json['data']['attributes']['mapName']
+        attrs['seasonState'] = match_json['data']['attributes']['seasonState']
+        attrs['duration'] = match_json['data']['attributes']['duration']
+        attrs['gameMode'] = match_json['data']['attributes']['gameMode']
+        attrs['isCustomMatch'] = match_json['data']['attributes']['isCustomMatch']
+        attrs['createdAt'] = match_json['data']['attributes']['createdAt']
 
         rosters = []
-        included = resp_json['included']
+        included = match_json['included']
 
         for element in included:
             if element['type'] == 'roster':
@@ -119,9 +128,9 @@ class PUBG:
                 attrs_r['type'] = 'roster'
                 attrs_r['id'] = element['id']
                 attrs_r['won'] = element['attributes']['won']
-                attrs_r['shard_id'] = element['attributes']['shardId']
+                attrs_r['shardId'] = element['attributes']['shardId']
                 attrs_r['rank'] = element['attributes']['stats']['rank']
-                attrs_r['team_id'] = element['attributes']['stats']['teamId']
+                attrs_r['teamId'] = element['attributes']['stats']['teamId']
 
                 participants = []
 
@@ -133,7 +142,7 @@ class PUBG:
                             attrs_p = {}
                             attrs_p['type'] = element['type']
                             attrs_p['id'] = element['id']
-                            attrs_p['shard_id'] = element['attributes']['shardId']
+                            attrs_p['shardId'] = element['attributes']['shardId']
                             attrs_p['stats'] = element['attributes']['stats']
 
                             participants.append(Participant(**attrs_p))
@@ -146,43 +155,11 @@ class PUBG:
                 attrs_a['type'] = 'asset'
                 attrs_a['id'] = element['id']
                 attrs_a['name'] = element['attributes']['name']
-                attrs_a['description'] = element['attributes']['description']
                 attrs_a['createdAt'] = element['attributes']['createdAt']
-                attrs_a['URL'] = element['attributes']['URL']
+                attrs_a['url'] = element['attributes']['URL']
 
                 attrs['asset'] = Asset(**attrs_a)
 
 
         attrs['rosters'] = rosters
         return Match(**attrs)
-
-        
-
-
-
-
-
-                
-
-                
-
-
-class Match:
-    def __init__(self, **kwargs):
-        for attribute, value in kwargs.items():
-            setattr(self, attribute, value)
-
-class Roster:
-    def __init__(self, **kwargs):
-        for attribute, value in kwargs.items():
-            setattr(self, attribute, value)
-               
-class Asset:
-    def __init__(self, **kwargs):
-        for attribute, value in kwargs.items():
-            setattr(self, attribute, value)
-        
-class Participant:
-    def __init__(self, **kwargs):
-        for attribute, value in kwargs.items():
-            setattr(self, attribute, value)
