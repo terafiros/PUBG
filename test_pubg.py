@@ -98,7 +98,7 @@ def player_json(pubg):
         print(player.titleId)
         print(player.shardId)
         print(player.createdAt)
-        print( player.matches)
+        print(player.matches)
         print(player.name_search_url)
         print(player.id_search_url)
 
