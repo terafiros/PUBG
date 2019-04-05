@@ -74,3 +74,12 @@ class Asset:
         self.url = url
         self.createdAt = createdAt
         self.name = name
+
+class Sample:
+    def __init__(self, type = '', id ='', titleId = '', shardId = '', createdAt = '', matches = []):
+        self.type = type
+        self.id = id
+        self.titleId = titleId
+        self.shardId = shardId
+        self.createdAt = createdAt
+        self.matches = matches

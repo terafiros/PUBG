@@ -1,6 +1,6 @@
 import requests
 from constants import URLS
-from models import Player, Season, PlayerSeasonStats, LifeTimeStats, Match, Roster, Participant, Asset
+from models import Player, Season, PlayerSeasonStats, LifeTimeStats, Match, Roster, Participant, Asset, Sample
 
 
 class PUBG:
@@ -47,7 +47,7 @@ class PUBG:
         return Player(**attrs)
 
     def get_seasons(self, save_in_json = False):
-        response = requests.get(URLS.seasons_url.value, headers=self.header)
+        response = requests.get(URLS.seasons_url.value.format(platform=self.platform), headers=self.header)
         seasons_json = response.json()
         if save_in_json:
             file = open('seasons.json', 'w+')
@@ -70,7 +70,7 @@ class PUBG:
         return seasons_list
 
     def get_player_stats_for_season(self, player_id, season_id, save_in_json = False):
-        response = requests.get(URLS.player_season_url.value.format(playerId=player_id, seasonId=season_id), headers=self.header)
+        response = requests.get(URLS.player_season_url.value.format(platform=self.platform,playerId=player_id, seasonId=season_id), headers=self.header)
         if save_in_json:
             file = open(player_id + '_' + season_id + '.json', 'w+')
             file.write(response.text)
@@ -84,7 +84,7 @@ class PUBG:
     
     
     def get_lifetime_stats(self, player_id, save_in_json = False):
-        response = requests.get(URLS.lifetime_url.value.format(playerId=player_id),headers=self.header)
+        response = requests.get(URLS.lifetime_url.value.format(platform=self.platform, playerId=player_id),headers=self.header)
         if save_in_json:
             file = open(player_id + '_lifetime_stats.json', 'w+')
             file.write(response.text)
@@ -96,7 +96,7 @@ class PUBG:
         return LifeTimeStats(lifetime_json['data']['attributes']['gameModeStats'])
 
     def get_match(self, match_id, save_in_json = False):
-        response = requests.get(URLS.match_url.value.format(matchId=match_id), headers=self.header)
+        response = requests.get(URLS.match_url.value.format(platform=self.platform, matchId=match_id), headers=self.header)
         if save_in_json:
             file = open(match_id + '.json', 'w+')
             file.write(response.text)
@@ -163,3 +163,30 @@ class PUBG:
 
         attrs['rosters'] = rosters
         return Match(**attrs)
+    
+    def get_sample(self, save_in_json = False):
+        response = requests.get(URLS.sample_url.value.format(platform=self.platform), headers=self.header)
+        if save_in_json:
+            file = open('sample.json', 'w+')
+            file.write(response.text)
+            file.close()
+            
+        return self.get_sample_from_json(response.json())
+    
+    def get_sample_from_json(self, sample_json):
+        attrs = {}
+        attrs['type'] = sample_json['data']['type']
+        attrs['id'] = sample_json['data']['id'] 
+        attrs['titleId'] = sample_json['data']['attributes']['titleId']
+        attrs['shardId'] = sample_json['data']['attributes']['shardId']
+        attrs['createdAt'] = sample_json['data']['attributes']['createdAt']
+        matches = []
+        for match in sample_json['data']['relationships']['matches']['data']:
+            matches.append(match['id'])
+        
+        attrs['matches'] = matches
+        
+        return Sample(**attrs)
+        
+    
+    

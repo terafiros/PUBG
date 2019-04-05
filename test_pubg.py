@@ -5,6 +5,8 @@ from PIL import Image, ImageDraw
 from telemetry import Telemetry
 import json
 
+def pillow():
+    pass
 def sem_api():
     key = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJqdGkiOiIwMDQzNWU1MC0xODZiLTAxMzctNzM1OC0wZTM1MzFmZGJkNWEiLCJpc3MiOiJnYW1lbG9ja2VyIiwiaWF0IjoxNTUwNzk3MTU2LCJwdWIiOiJibHVlaG9sZSIsInRpdGxlIjoicHViZyIsImFwcCI6InB1YmctdGVhY2hlciJ9.zM2r5FJZP3IkcRVVFN1ApBDesf-JJn3QPAZyxNr2QR4'
     plat = 'steam'
@@ -81,7 +83,10 @@ def com_api():
     #lifetime_json(pubg)
     
     #match_request(pubg)
-    match_json(pubg)
+    #match_json(pubg)
+    
+    #sample_request(pubg)
+    #sample_json(pubg)
 
 def player_json(pubg):
     with open('terafiros.json') as data:
@@ -246,8 +251,30 @@ def match_json(pubg):
                 print(part.shardId)
                 print(part.stats)
     
+def sample_request(pubg):
+    sample = pubg.get_sample()
+    print(sample.id)
+    print(sample.type)
+    print(sample.createdAt)
+    print(sample.shardId)
+    print(sample.titleId)
+    print(len(sample.matches))
     
+
+def sample_json(pubg):
+    with open('sample.json') as data:
+        sample = pubg.get_sample_from_json(json.load(data))
+        print(sample.id)
+        print(sample.type)
+        print(sample.createdAt)
+        print(sample.shardId)
+        print(sample.titleId)
+        print(len(sample.matches))
+        
+
 if __name__ == '__main__':
+    #pillow()
     #sem_api()
     com_api()
+    
     
