@@ -83,3 +83,27 @@ class Sample:
         self.shardId = shardId
         self.createdAt = createdAt
         self.matches = matches
+
+class Leaderboard:
+    def __init__(self, type = '', id = '', shardId = '', gameMode = '', rankedPlayers = [], urlLink = ''):
+        self.type = type
+        self.id = id
+        self.shardId = shardId
+        self.gameMode = gameMode
+        self.rankedPlayers = rankedPlayers
+        self.urlLink = urlLink
+    
+class RankedPlayer:
+    def __init__(self, type = '', id = '', name = '', rank = 0, stats = {}):
+        self.type = type
+        self.id = id
+        self.name = name
+        self.rank = rank
+        self.stats = stats
+        
+class Tournament:
+    def __init__(self, type = '', id = '', matches = [], urlLink = ''):
+        self.type = type
+        self.id = id
+        self.matches = matches
+        self.urlLink = urlLink

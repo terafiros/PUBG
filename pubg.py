@@ -1,6 +1,6 @@
 import requests
 from constants import URLS
-from models import Player, Season, PlayerSeasonStats, LifeTimeStats, Match, Roster, Participant, Asset, Sample
+from models import Player, Season, PlayerSeasonStats, LifeTimeStats, Match, Roster, Participant, Asset, Sample, Leaderboard, RankedPlayer, Tournament
 
 
 class PUBG:
@@ -188,5 +188,83 @@ class PUBG:
         
         return Sample(**attrs)
         
+    def get_leaderboard(self, gameMode = 'squad-fpp', pageNumber = 0, save_in_json = False):
+        print(URLS.leaderboard_url.value.format(platform=self.platform, gameMode=gameMode, pageNumber= pageNumber))
+        response = requests.get(URLS.leaderboard_url.value.format(platform=self.platform, gameMode=gameMode, pageNumber= pageNumber), headers=self.header)
+        
+        if save_in_json:
+            file = open('leaderboard.json', 'w+')
+            print(response.text)
+            file.write(response.text)
+            file.close()
+            
+        return self.get_leaderboard_from_json(response.json())
+
+    def get_leaderboard_from_json(self, leaderboard_json):
+        attrs = {}
+        attrs['type'] = leaderboard_json['data']['type']
+        attrs['id'] = leaderboard_json['data']['id']
+        attrs['shardId'] = leaderboard_json['data']['attributes']['shardId']
+        attrs['gameMode'] = leaderboard_json['data']['attributes']['gameMode']
+        attrs['urlLink'] = leaderboard_json['links']['self']
+        
+        ranked_players = []
+        for element in leaderboard_json['included']:
+            attrs_rp = {}
+            attrs_rp['type'] = element['type']
+            attrs_rp['id'] = element['id']
+            attrs_rp['name'] = element['attributes']['name']
+            attrs_rp['rank'] = element['attributes']['rank']
+            attrs_rp['stats'] = element['attributes']['stats']
+            
+            ranked_players.append(RankedPlayer(**attrs_rp))
+        
+        attrs['rankedPlayers'] = ranked_players
+        
+        return Leaderboard(**attrs)
     
+    def get_tournaments(self, tournament_id = None, save_in_json = False):
+        if tournament_id is None or tournament_id == '':
+            response = requests.get(URLS.tournaments_url.value.format(id=''), headers=self.header)
+            if save_in_json:
+                file = open('tournaments.json', 'w+')
+                file.write(response.text)
+                file.close()
+                
+            return self.get_tournaments_from_json(response.json())
+                
+        
+        else:
+            response = requests.get(URLS.tournaments_url.value.format(id=tournament_id), headers=self.header)
+            if save_in_json:
+                file = open(tournament_id + '_tournaments.json', 'w+')
+                file.write(response.text)
+                file.close()
+            
+            return self.get_tournaments_from_json(response.json(), False)
     
+    def get_tournaments_from_json(self, tournament_json, all_tournaments = True):
+        if all_tournaments:
+            tournaments = []
+            for tournament in tournament_json['data']:
+                tournaments.append(tournament['id'])
+                                   
+            return tournaments
+        
+        else:
+            attrs = {}
+            attrs['type'] = tournament_json['data']['type']
+            attrs['id'] = tournament_json['data']['id']
+            attrs['urlLink'] = tournament_json['links']['self']
+            
+            matches = []
+            
+            for match in tournament_json['included']:
+                matches.append(match['id'])
+                
+            attrs['matches'] = matches
+            
+            return Tournament(**attrs)
+            
+            
+            

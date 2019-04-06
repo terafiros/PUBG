@@ -87,6 +87,13 @@ def com_api():
     
     #sample_request(pubg)
     #sample_json(pubg)
+    
+    #sem resposta do servidor
+    #leaderboard_request(pubg)
+    #leaderboard_json(pubg)
+    
+    #tournaments_request(pubg)
+    #tournaments_json(pubg)
 
 def player_json(pubg):
     with open('terafiros.json') as data:
@@ -271,7 +278,48 @@ def sample_json(pubg):
         print(sample.titleId)
         print(len(sample.matches))
         
+def leaderboard_request(pubg):
+    pass    
 
+def leaderboard_json(pubg):
+    pass
+        
+def tournaments_request(pubg):
+    tournaments = pubg.get_tournaments()
+    print(len(tournaments))
+    for t in tournaments:
+        print(t)
+    
+    tournament = pubg.get_tournaments(tournament_id='sea-vnlpt')
+        
+    print(tournament.type)
+    print(tournament.id)
+    print(tournament.urlLink)
+    
+    print(len(tournament.matches))
+    for match in tournament.matches:
+        print(match)
+
+def tournaments_json(pubg):
+    with open('tournaments.json') as data:
+        tournaments = pubg.get_tournaments_from_json(json.load(data))
+        print(len(tournaments))
+        for t in tournaments:
+            print(t)
+    
+    with open('tournaments.json') as data:
+        tournament_id = pubg.get_tournaments_from_json(json.load(data))[0]
+        with open(tournament_id + '_tournaments.json') as data:
+            tournament = pubg.get_tournaments_from_json(json.load(data), all_tournaments=False)
+            print(tournament.type)
+            print(tournament.id)
+            print(tournament.urlLink)
+    
+            print(len(tournament.matches))
+            for match in tournament.matches:
+                print(match)
+            
+    
 if __name__ == '__main__':
     #pillow()
     #sem_api()

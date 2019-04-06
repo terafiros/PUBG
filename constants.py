@@ -11,3 +11,7 @@ class URLS(Enum):
     
     match_url = 'https://api.pubg.com/shards/{platform}/matches/{matchId}'
     sample_url = 'https://api.pubg.com/shards/{platform}/samples'
+    
+    leaderboard_url = 'https://api.pubg.com/shards/{platform}/leaderboards/{gameMode}?page[number]={pageNumber}'
+    tournaments_url = 'https://api.pubg.com/tournaments/{id}'
+
