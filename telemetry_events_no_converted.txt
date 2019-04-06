@@ -1,0 +1,189 @@
+﻿"_D": string,      // Event timestamp
+"_T": string,      // Event type
+"common": {Common}
+
+LOGARMORDESTROY
+	"attackId":           int,
+	"attacker":           {Character},
+	"victim":             {Character},
+	"damageTypeCategory": string,
+	"damageReason":       string,
+	"damageCauserName":   string,
+	"item":               {Item},
+	"distance":           number
+	
+LOGCAREPACKAGELAND
+	"itemPackage": {ItemPackage}
+	
+LOGCAREPACKAGESPAWN
+	"itemPackage": {ItemPackage}
+	
+LOGGAMESTATEPERIODIC
+	"gameState": {GameState}
+
+LOGHEAL
+	"character":  {Character},
+	"item":       {Item},
+	"healAmount": number
+
+LOGITEMATTACH
+	"character":  {Character},
+	"parentItem": {Item},
+	"childItem":  {Item}
+
+LOGITEMDETACH
+	"character":  {Character},
+	"parentItem": {Item},
+	"childItem":  {Item}
+
+LOGITEMDROP
+	"character": {Character},
+	"item":      {Item}
+
+LOGITEMEQUIP
+	"character": {Character},
+	"item":      {Item}
+	
+LOGITEMPICKUP
+	"character": {Character},
+	"item":      {Item}
+	
+LOGITEMPICKUPFROMCAREPACKAGE
+	"character":   {Character},
+	"item":        {Item}
+	
+LOGITEMPICKUPFROMLOOTBOX
+	"character":   {Character},
+	"item":        {Item},
+	"ownerTeamId": int
+	
+LOGITEMUNEQUIP
+	"character": {Character},
+	"item":      {Item}
+	
+LOGITEMUSE
+	"character": {Character},
+	"item":      {Item}
+	
+LOGMATCHDEFINITION
+	"MatchId":     string,
+	"PingQuality": string,
+	"SeasonState": string
+	
+LOGMATCHEND
+	"characters":           [{Character}, ...],
+	
+LOGMATCHSTART
+	"mapName":               string,
+	"weatherId":             string,
+	"characters":            [{Character}, ...],
+	"cameraViewBehaviour":   string,
+	"teamSize":              int,
+	"isCustomGame":          bool,
+	"isEventMode":           bool,
+	"blueZoneCustomOptions": string
+
+LOGOBJECTDESTROY
+	"character":      {Character},
+	"objectType":     string,
+	"objectLocation": {Location}
+	
+LOGPARACHUTELANDING
+	"character": {Character},
+	"distance":  number
+	
+LOGPLAYERATTACK
+	"attackId":             int,
+	"fireWeaponStackCount": int,
+	"attacker":             {Character},
+	"attackType":           string,
+	"weapon":               {Item},
+	"vehicle":              {Vehicle}
+	
+LOGPLAYERCREATE
+	"character": {Character}
+		
+LOGPLAYERLOGIN
+	"accountId":    string
+	
+LOGPLAYERLOGOUT
+	"accountId": string
+	
+LOGPLAYERMAKEGROGGY
+	"attackId":                   int,
+	"attacker":                   {Character},
+	"victim":                     {Character},
+	"damageReason":               string,
+	"damageTypeCategory":         string,
+	"damageCauserName":           string,
+	"damageCauserAdditionalInfo": [string],
+	"distance":                   number,
+	"isAttackerInVehicle":        bool,
+	"dBNOId":                     int
+	
+LOGPLAYERPOSITION
+	"character":       {Character},
+	"vehicle":         {Vehicle},
+	"elapsedTime":     number,
+	"numAlivePlayers": int
+	
+LOGPLAYERREVIVE
+	"reviver":             {Character},
+	"victim":              {Character},
+	"dBNOId":              int
+	
+LOGPLAYERTAKEDAMAGE
+	"attackId":           int,
+	"attacker":           {Character},
+	"victim":             {Character},
+	"damageTypeCategory": string,
+	"damageReason":       string,
+	"damage":             number,        // 1.0 damage = 1.0 health
+										 // Net damage after armor; damage to health
+	"damageCauserName":   string
+	
+LOGREDZONEENDED
+	"drivers": [{Character}, ...]
+	
+LOGSWIMEND
+	"character":           {Character},
+	"swimDistance":        number,
+	"maxSwimDepthOfWater": number
+	
+LOGSWIMSTART
+	"character": {Character}
+	
+LOGVAULTSTART
+	"character": {Character}
+	
+LOGVEHICLEDESTROY
+	"atackId":            int,
+	"attacker":           {Character},
+	"vehicle":            {Vehicle},
+	"damageTypeCategory": string,
+	"damageCauserName":   string,
+	"distance":           number,
+	
+LOGVEHICLELEAVE
+	"character":    {Character},
+	"vehicle":      {Vehicle},
+	"rideDistance": number,
+	"seatIndex":    integer,
+	"maxSpeed":     number
+	
+LOGVEHICLERIDE
+	"character": {Character},
+	"vehicle":   {Vehicle},
+	"seatIndex": int
+	
+LOGWEAPONFIRECOUNT¶
+	"character": {Character},
+	"weaponId":  string,
+	"fireCount": int            // Increments of 10
+
+LOGWHEELDESTROY
+	"attackId":           int,
+	"attacker":           {Character},
+	"vehicle":            {Vehicle},
+	"damageTypeCategory": string,
+	"damageCauserName":   string

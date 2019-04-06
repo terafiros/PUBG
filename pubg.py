@@ -1,7 +1,7 @@
 import requests
 from constants import URLS
 from models import Player, Season, PlayerSeasonStats, LifeTimeStats, Match, Roster, Participant, Asset, Sample, Leaderboard, RankedPlayer, Tournament
-
+import json
 
 class PUBG:
     def __init__(self, key, platform):
@@ -266,5 +266,14 @@ class PUBG:
             
             return Tournament(**attrs)
             
+    def get_telemetry(self, asset_url, save_in_json = False):
+        response = requests.get(asset_url)
+        if save_in_json:
+            file = open('telemetry.json', 'w+')
+            file.write(response.text)
+            file.close()
             
-            
+        return response.json()
+    
+    def get_telemetry_from_json(self, telemetry_json):
+        return json.load(telemetry_json)
