@@ -43,5 +43,64 @@ class Common:
     def __init__(self, isGame = 0):
         self.isGame = isGame
         
+class Vehicle:
+    def __init__(self, vehicleType = '', vehicleId = '',
+                 healthPercent = 0, feulPercent = 0):
         
+        self.vehicleType = vehicleType
+        self.vehicleId = vehicleId
+        self.healthPercent = healthPercent
+        self.feulPercent = feulPercent
+        
+class GameState:
+    def __init__(self, elapsedTime = 0, numAliveTeams = 0,
+                 numJoinPlayers = 0, numStartPlayers = 0,
+                 numAlivePlayers = 0, safetyZonePosition = None,
+                 safetyZoneRadius = 0, poisonGasWarningPosition = None,
+                 poisonGasWarningRadius = 0, redZonePosition = None,
+                 redZoneRadius = 0):
+        
+        self.elapsedTime = elapsedTime
+        self.numAliveTeams = numAliveTeams
+        self.numJoinPlayers = numJoinPlayers
+        self.numStartPlayers = numStartPlayers
+        self.numAlivePlayers = numAlivePlayers
+        self.safetyZonePosition = Location(**safetyZonePosition)
+        self.safetyZoneRadius = safetyZoneRadius
+        self.poisonGasWarningPosition = Location(**poisonGasWarningPosition)
+        self.poisonGasWarningRadius = poisonGasWarningRadius
+        self.redZonePosition = Location(**redZonePosition)
+        self.redZoneRadius = redZoneRadius
+
+class Item:
+    def __init__(self,  itemId = '', stackCount = 0, category = '',
+                 subCategory = '', attachedItems = []):
+        self.itemId = itemId
+        self.stackCount = stackCount
+        self.category = category
+        self.subCategory = subCategory
+        self.attachedItems = attachedItems
+
+class ItemPackage:
+    def __init__(self, itemPackageId = '', location = None, items = []):
+        self.itemPackageId = itemPackageId
+        self.location = Location(**location)
+        self.items = items
+
+        
+class BlueZoneCustomOptions:
+    def __init__(self, phaseNum = 0, startDelay = 0, warningDuration = 0,
+                 releaseDuration = 0, poisonGasDamagePerSecond = 0,
+                 radiusRate = 0, spreadRatio = 0, landRatio = 0,
+                 circleAlgorithm = 0):
+        
+        self.phaseNum = phaseNum
+        self.startDelay = startDelay
+        self.warningDuration = warningDuration
+        self.releaseDuration = releaseDuration
+        self.poisonGasDamagePerSecond = poisonGasDamagePerSecond
+        self.radiusRate = radiusRate
+        self.spreadRatio = spreadRatio
+        self.landRatio = landRatio
+        self.circleAlgorithm =  circleAlgorithm
         
