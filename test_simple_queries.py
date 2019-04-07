@@ -243,7 +243,7 @@ def api_simple_queries():
     plat = 'steam'
     pubg = PUBG(key, plat)
     
-    '''
+    
     player_request(pubg)
     player_json(pubg)
     
@@ -271,7 +271,7 @@ def api_simple_queries():
     
     status_request(pubg)
     status_json(pubg)
-    '''
+    
  
 #TO DO add path to save json
 if __name__ == '__main__':

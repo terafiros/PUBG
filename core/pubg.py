@@ -266,20 +266,21 @@ class PUBG:
             
             return Tournament(**attrs)
             
-    def get_telemetry(self, asset_url, save_in_json = False):
+    def get_telemetry(self, asset_url, save_in_json = False, *args):
         response = requests.get(asset_url)
         if save_in_json:
             file = open('telemetry.json', 'w+')
             file.write(response.text)
             file.close()
             
-        return self.get_telemetry_from_json(response.json())
+        return self.get_telemetry_from_json(response.json(), *args)
     
-    def get_telemetry_from_json(self, telemetry_json):
-        return Telemetry(telemetry_json)
+    def get_telemetry_from_json(self, telemetry_json, *args):
+        return Telemetry(telemetry_json, *args)
     
     
     def get_status(self, save_in_json = False):
+        print(URLS.status_url)
         response = requests.get(url=URLS.status_url.value)
         
         if save_in_json:

@@ -1,5 +1,6 @@
 from core.pubg import PUBG
 import time, json
+from constants.constants import Events
 
 if __name__ == '__main__':
     key = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJqdGkiOiIwMDQzNWU1MC0xODZiLTAxMzctNzM1OC0wZTM1MzFmZGJkNWEiLCJpc3MiOiJnYW1lbG9ja2VyIiwiaWF0IjoxNTUwNzk3MTU2LCJwdWIiOiJibHVlaG9sZSIsInRpdGxlIjoicHViZyIsImFwcCI6InB1YmctdGVhY2hlciJ9.zM2r5FJZP3IkcRVVFN1ApBDesf-JJn3QPAZyxNr2QR4'
@@ -14,12 +15,17 @@ if __name__ == '__main__':
     print(last_match.asset.url)
     
     '''
-    
+
     with open('json/telemetry.json') as data:
         
         telemetry_json = json.load(data)
         start = time.time()
-        telemetry = pubg.get_telemetry_from_json(telemetry_json)    
+        telemetry = pubg.get_telemetry_from_json(telemetry_json)
+        
+        
+        
+        
+        
         end = time.time()
         print(end - start)
         print(len(telemetry.events))
