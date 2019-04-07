@@ -291,34 +291,42 @@ class ParachuteLandingEvent:
     def __str__(self):
         return 'LogParachuteLanding'
     
-class PlayerAttack:
+class PlayerAttackEvent:
+    
+     def __init__(self, attackId = 0, fireWeaponStackCount = 0,
+                  attacker = None, attackType = '', weapon = None,
+                  vehicle = None, common = None, _D = '', _T = ''):
+         
+         self.attackId = attackId
+         self.fireWeaponStackCount = fireWeaponStackCount
+         self.attacker = Character(**attacker)
+         self.attackType = attackType
+         self.weapon = Item(**weapon)
+         
+         if vehicle == None:
+             self.vehicle = None
+         else:
+             self.vehicle = Vehicle(**vehicle)
+         self.common = Common(**common)
+         self._D = _D
+         self._T = _T
+    
+     def __str__(self):
+         return 'LogPlayerAttack'
+        
+class PlayerCreateEvent:
+    
+    def __init__(self, character = None,
+                 common = None, _D = '', _T = ''):
+         
+         self.character = Character(**character)
+         self.common = Common(**common)
+         self._D = _D
+         self._T = _T
+    
     def __str__(self):
-        return 'LogPlayerAttack'
+         return 'LogPlayerCreate'
     
-    
-    
-    
-
-    
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 class PlayerKillEvent:
     def __init__(self, attackId = 0, killer = None, victim = None,
                  assistant = None, dBNOId = 0, damageReason = '',
@@ -344,6 +352,59 @@ class PlayerKillEvent:
     def __str__(self):
         return 'LogPlayerKill'
     
+    
+class PlayerLoginEvent:
+    
+    def __init__(self, accountId = '',
+                 common = None, _D = '', _T = ''):
+        
+        self.accountId = accountId
+        self.common = Common(**common)
+        self._D = _D
+        self._T = _T
+    
+    def __str__(self):
+        return 'LogPlayerLogin'
+    
+    
+    
+class PlayerLogoutEvent:
+    def __init__(self, accountId = '',
+                 common = None, _D = '', _T = ''):
+        
+        self.accountId = accountId
+        self.common = Common(**common)
+        self._D = _D
+        self._T = _T
+    
+    def __str__(self):
+        return 'LogPlayerLogout'
+    
+class PlayerMakeGroggyEvent:
+    
+    def __init__(self, attackId = 0, attacker = None, victim = None,
+                 dBNOId = 0, damageReason = '', damageTypeCategory = '',
+                 damageCauserName = '', damageCauserAdditionalInfo = [],
+                 distance = 0, isAttackerInVehicle = False,
+                 common = None, _D = '', _T = ''):
+        
+        self.attackId = attackId
+        self.attacker = Character(**attacker)
+        self.victim = Character(**victim)
+        self.dBNOId = dBNOId
+        self.damageReason = damageReason
+        self.damageTypeCategory = damageTypeCategory
+        self.damageCauserName = damageCauserName
+        self.damageCauserAdditionalInfo = damageCauserAdditionalInfo
+        self.distance = distance
+        self.isAttackerInVehicle = isAttackerInVehicle
+        self.common = Common(**common)
+        self._D = _D
+        self._T = _T
+    
+    def __str__(self):
+        return 'LogPlayerMakeGroggy'
+    
 class PlayerPositionEvent:
     def __init__(self, character = None, vehicle = None,
                  elapsedTime = 0, numAlivePlayers = 0,
@@ -359,7 +420,159 @@ class PlayerPositionEvent:
         
     def __str__(self):
         return 'LogPlayerPosition'
+    
+class PlayerReviveEvent:
+    
+    def __init__(self, reviver = None, victim = None,
+                 dBNOId = 0, common = None, _D = '', _T = ''):
         
+        self.reviver = Character(**reviver)
+        self.victim = Character(**victim)
+        self.dBNOId = dBNOId
+        self.common = Common(**common)
+        self._D = _D
+        self._T = _T
+    
+    def __str__(self):
+        return 'LogPlayerRevive'
+    
+class PlayerTakeDamageEvent:
+    
+    def __init__(self, attackId = 0, attacker = None, victim = None,
+                 damageReason = '', damageTypeCategory = '',
+                 damageCauserName = '', damage = 0,
+                 common = None, _D = '', _T = ''):
+        
+        self.attackId = attackId
+        if attacker == None:
+            self.attacker = None            
+        else:
+            self.attacker = Character(**attacker)
+            
+        self.victim = Character(**victim)
+        self.damageReason = damageReason
+        self.damageTypeCategory = damageTypeCategory
+        self.damageCauserName = damageCauserName        
+        self.damage = damage
+        self.common = Common(**common)
+        self._D = _D
+        self._T = _T
+    
+    def __str__(self):
+        return 'LogPlayerTakeDamage'
+    
+class RedZoneEndedEvent:
+    
+    def __init__(self, drivers = [],
+                 common = None, _D = '', _T = ''):
+               
+        self.drivers = []
+        for driver in drivers:
+            self.drivers.append(Character(**driver))
+        
+        self.common = Common(**common)
+        self._D = _D
+        self._T = _T
+    
+    def __str__(self):
+        return 'LogRedZoneEnded'
+    
+class SwimEndEvent:
+    
+    def __init__(self, character = None,
+                 swimDistance = 0, maxSwimDepthOfWater = 0,
+                 common = None, _D = '', _T = ''):
+        
+        self.character = Character(**character)
+        self.swimDistance = swimDistance
+        self.maxSwimDepthOfWater = maxSwimDepthOfWater
+        self.common = Common(**common)
+        self._D = _D
+        self._T = _T
+    
+    def __str__(self):
+        return 'LogSwimEnd'
+
+class SwimStartEvent:
+    
+    def __init__(self, character = None, 
+                 common = None, _D = '', _T = ''):
+        
+        self.character = Character(**character)
+        self.common = Common(**common)
+        self._D = _D
+        self._T = _T
+    
+    def __str__(self):
+        return 'LogSwimStart'
+    
+class VaultStartEvent:
+    
+    def __init__(self, character = None, 
+                 common = None, _D = '', _T = ''):
+        
+        self.character = Character(**character)
+        self.common = Common(**common)
+        self._D = _D
+        self._T = _T
+    
+    def __str__(self):
+        return 'LogVaultStart'
+    
+    
+    
+class VehicleDestroyEvent:
+    def __init__(self, attackId = 0, attacker = None, vehicle = None,
+                     damageTypeCategory = '', damageCauserName = '',
+                     distance = 0, common = None, _D = '', _T = ''):
+            
+            self.attackId = attackId
+            self.attacker = Character(**attacker)
+            self.vehicle = Vehicle(**vehicle)
+            self.damageTypeCategory = damageTypeCategory
+            self.damageCauserName = damageCauserName        
+            self.distance = distance
+            self.common = Common(**common)
+            self._D = _D
+            self._T = _T
+    
+    def __str__(self):
+        return 'LogVehicleDestroy'
+        
+    
+class VehicleLeaveEvent:
+    def __init__(self, character = None, vehicle = None,
+                     rideDistance = 0, seatIndex = 0,
+                     maxSpeed = 0, common = None, _D = '', _T = ''):
+            
+            
+            self.character = Character(**character)
+            self.vehicle = Vehicle(**vehicle)
+            self.rideDistance = rideDistance
+            self.seatIndex = seatIndex        
+            self.maxSpeed = maxSpeed
+            self.common = Common(**common)
+            self._D = _D
+            self._T = _T
+    
+    def __str__(self):
+        return 'LogVehicleLeave'
+
+class VehicleRideEvent:
+    def __init__(self, character = None, vehicle = None,
+                 seatIndex = 0, common = None, _D = '', _T = ''):
+            
+            
+            self.character = Character(**character)
+            self.vehicle = Vehicle(**vehicle)
+            self.seatIndex = seatIndex        
+            self.common = Common(**common)
+            self._D = _D
+            self._T = _T
+    
+    def __str__(self):
+        return 'LogVehicleRide'
+    
 class WeaponFireCountEvent:
     def __init__(self, character = None, weaponId = '',
                  fireCount = 0, common = None, _D = '', _T = ''):
@@ -374,6 +587,22 @@ class WeaponFireCountEvent:
     def __str__(self):
         return 'LogWeaponFireCount'
     
+class WheelDestroyEvent:
+    def __init__(self, attackId = 0, attacker = None, vehicle = None,
+                     damageTypeCategory = '', damageCauserName = '',
+                     common = None, _D = '', _T = ''):
+            
+            self.attackId = attackId
+            self.attacker = Character(**attacker)
+            self.vehicle = Vehicle(**vehicle)
+            self.damageTypeCategory = damageTypeCategory
+            self.damageCauserName = damageCauserName
+            self.common = Common(**common)
+            self._D = _D
+            self._T = _T
+    
+    def __str__(self):
+        return 'LogWheelDestroy'
     
 
 

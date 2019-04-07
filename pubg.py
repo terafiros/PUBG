@@ -277,3 +277,8 @@ class PUBG:
     
     def get_telemetry_from_json(self, telemetry_json):
         return json.load(telemetry_json)
+    
+    
+    def get_status(self):
+        response = requests.get(url=URLS.status_url.value)
+        return response.json()

@@ -14,4 +14,6 @@ class URLS(Enum):
     
     leaderboard_url = 'https://api.pubg.com/shards/{platform}/leaderboards/{gameMode}?page[number]={pageNumber}'
     tournaments_url = 'https://api.pubg.com/tournaments/{id}'
+    
+    status_url = 'https://api.pubg.com/status'
 
