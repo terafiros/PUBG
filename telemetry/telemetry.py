@@ -6,10 +6,11 @@ class Telemetry:
         
         self.events = []
         if len(event_list) > 0:
+            factory = EventFactory()
             for event in telemetry_json:
                 for wish_event in event_list:
                     if event['_T'] == wish_event.value:
-                        self.events.append(event)
+                        self.events.append(factory.get_event(wish_event.value,**event))
                 
         
         else:

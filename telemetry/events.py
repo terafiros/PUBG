@@ -603,3 +603,114 @@ class WheelDestroyEvent:
     
     def __str__(self):
         return 'LogWheelDestroy'
+    
+class EventFactory:
+    
+    def get_event(self, event, **attributes):
+        if event == 'LogArmorDestroy':
+            return ArmorDestroyEvent(**attributes)
+        
+        elif  event == 'LogCarePackageLand':
+            return CarePackageLandEvent(**attributes)
+        
+        elif  event == '  LogCarePackageSpawn':
+            return CarePackageSpawnEvent(**attributes)
+        
+        elif  event == '  LogGameStatePeriodic':
+            return GameStatePeriodicEvent(**attributes)
+        
+        elif  event == '  LogHeal':
+            return HealEvent(**attributes)
+        
+        elif  event == '  LogItemAttach':
+            return ItemAttachEvent(**attributes)
+        
+        elif  event == '  LogItemDetach':
+            return ItemDetachEvent(**attributes)
+        
+        elif   event == ' LogItemDrop':
+            return ItemDropEvent(**attributes)
+        
+        elif   event == ' LogItemEquip':
+            return ItemEquipEvent(**attributes)
+        
+        elif   event == ' LogItemPickup':
+            return ItemPickupEvent(**attributes)
+        
+        elif   event == ' LogItemPickupFromCarepackage':
+            return ItemPickupFromCarePackageEvent(**attributes)
+        
+        elif   event == ' LogItemPickupFromLootbox':
+            return ItemPickupFromLootBoxEvent(**attributes)
+        
+        elif   event == ' LogItemUnequip':
+            return ItemUnequipEvent(**attributes)
+        
+        elif   event == '  LogItemUse':
+            return ItemUseEvent(**attributes)
+        
+        elif     event == 'LogMatchDefinition':
+            return MatchDefinitionEvent(**attributes)
+        
+        elif     event == 'LogMatchEnd':
+            return MatchEndEvent(**attributes)
+        
+        elif   event == '  LogMatchStart':
+            return MatchStartEvent(**attributes)
+        
+        elif   event == '  LogObjectDestroy':
+            return ObjectDestroyEvent(**attributes)
+        
+        elif   event == '  LogParachuteLanding':
+            return ParachuteLandingEvent(**attributes)
+        
+        elif   event == '  LogPlayerAttack':
+            return PlayerAttackEvent(**attributes)
+        
+        elif   event == '  LogPlayerCreate':
+            return PlayerCreateEvent(**attributes)
+        
+        elif event == 'LogPlayerKill':
+            return PlayerKillEvent(**attributes)
+        
+        elif   event == 'LogPlayerLogin':
+            return PlayerLoginEvent(**attributes)
+        
+        elif   event == '  LogPlayerLogout':
+            return PlayerLogoutEvent(**attributes)
+         
+        elif event == 'LogPlayerMakeGroggy':
+            return PlayerMakeGroggyEvent(**attributes)
+        
+        elif event == 'LogPlayerPosition':
+            return PlayerPositionEvent(**attributes)
+        
+        elif event == 'LogPlayerRevive':
+            return PlayerReviveEvent(**attributes)
+        
+        elif event == 'LogPlayerTakeDamage':
+            return PlayerTakeDamageEvent(**attributes)
+        
+        elif event == 'LogRedZoneEnded':
+            return RedZoneEndedEvent(**attributes)
+        
+        elif event == 'LogSwimEnd':
+            return SwimEndEvent(**attributes)
+        
+        elif event == 'LogVaultStart':
+            return VaultStartEvent(**attributes)
+        
+        elif   event == '  LogVehicleDestroy':
+            return VehicleDestroyEvent(**attributes)
+        
+        elif   event == '  LogVehicleLeave':
+            return VehicleLeaveEvent(**attributes)
+        
+        elif   event == '  LogVehicleRide':
+            return VehicleRideEvent(**attributes)
+        
+        elif   event == '  LogWeaponFireCount':
+            return WeaponFireCountEvent(**attributes)
+        
+        elif   event == '  LogWheelDestroy':
+            return WheelDestroyEvent(**attributes)

@@ -1,37 +1,30 @@
+from core.pubg import PUBG
+import requests
+from PIL import Image
+from telemetry.telemetry import Telemetry
+from constants.constants import Events
+import json
+
+
 def sem_api():
     key = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJqdGkiOiIwMDQzNWU1MC0xODZiLTAxMzctNzM1OC0wZTM1MzFmZGJkNWEiLCJpc3MiOiJnYW1lbG9ja2VyIiwiaWF0IjoxNTUwNzk3MTU2LCJwdWIiOiJibHVlaG9sZSIsInRpdGxlIjoicHViZyIsImFwcCI6InB1YmctdGVhY2hlciJ9.zM2r5FJZP3IkcRVVFN1ApBDesf-JJn3QPAZyxNr2QR4'
     plat = 'steam'
     pubg = PUBG(key, plat)
-    header = {
-        'Authorization': 'Bearer ' + key,
-        'Accept': 'application/vnd.api+json'
-    }
-    # url = "https://api.pubg.com/shards/steam/matches/11e5041a-71a5-4612-9587-0ad22cf7b954" 2019-03-09T03:05:38Z
-    url = 'https://api.pubg.com/shards/steam/samples'  # ?filter[createdAt-start]=2019-03-23T10:49:00Z'
-    rsp = requests.get(url, headers=header)
-    m_id = 'e54ce173-3fe1-4059-982c-f260d737b177'
+    
+    erangel = Image.open('nova.png')
+    miramar = Image.open('miramar_original.jpg')
+    kill = Image.open('Death.png')
+    position = Image.open('position.png')
 
-    player = pubg.get_player('terafiros')
-    match = pubg.get_match(player.matches_ids[0])
-
-    print(match.mapName)
-    print(match.duration)
-    print(match.gameMode)
-
-    # 4326
-    erangel = Image.open('maps/nova.png')
-    miramar = Image.open('maps/miramar.jpg')
-
-    print(miramar.mode)
-
-    kill = Image.open('maps/Death.png')
-    position = Image.open('maps/position.png')
-
-    telemetry = requests.get(match.asset.URL)
-    print(match.asset.URL)
-
-    t = Telemetry(telemetry.json())
-
+    #t = Telemetry(telemetry.json(), Events.LogPlayerKill)
+    
+    with open('json/telemetry.json') as data:
+        t = pubg.get_telemetry_from_json(json.load(data), Events.LogPlayerKill)
+        for event in t.events:
+            x, y = event.victim.location.x, event.victim.location.y
+            miramar.paste(kill, (int(8000 * x / 816000), int(8000 * y / 816000)), kill)
+        
+    '''
     count = 0
     verify = 0
 
@@ -42,7 +35,7 @@ def sem_api():
         draw = ImageDraw.Draw(miramar)
         draw.ellipse((ox - r, oy - r, ox + r, oy + r), outline='green')
 
-    '''
+    
         if tele['_T'] == 'LogPlayerPosition':
             if tele['character']['name'] == 'Tecnosh':
                 x = tele['character']['location']['x']
@@ -53,7 +46,7 @@ def sem_api():
                 print(ox, oy)
                 erangel.paste(position, (int(ox), int(oy)), position)
     '''
-
+    
     miramar.show()
     
 if __name__ == '__main__':
