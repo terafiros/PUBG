@@ -1,6 +1,6 @@
 from core.pubg import PUBG
 import requests
-from PIL import Image
+from PIL import Image, ImageDraw
 from telemetry.telemetry import Telemetry
 from constants.constants import Events
 import json
@@ -11,14 +11,13 @@ def sem_api():
     plat = 'steam'
     pubg = PUBG(key, plat)
     
-    erangel = Image.open('nova.png')
     miramar = Image.open('miramar_original.jpg')
     kill = Image.open('Death.png')
     position = Image.open('position.png')
 
     #t = Telemetry(telemetry.json(), Events.LogPlayerKill)
     
-    with open('json/telemetry.json') as data:
+    with open('json/telemetry_1.json') as data:
         t = pubg.get_telemetry_from_json(json.load(data), Events.LogPlayerKill)
         for event in t.events:
             x, y = event.victim.location.x, event.victim.location.y

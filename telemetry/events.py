@@ -613,40 +613,40 @@ class EventFactory:
         elif  event == 'LogCarePackageLand':
             return CarePackageLandEvent(**attributes)
         
-        elif  event == '  LogCarePackageSpawn':
+        elif  event == 'LogCarePackageSpawn':
             return CarePackageSpawnEvent(**attributes)
         
-        elif  event == '  LogGameStatePeriodic':
+        elif  event == 'LogGameStatePeriodic':
             return GameStatePeriodicEvent(**attributes)
         
-        elif  event == '  LogHeal':
+        elif  event == 'LogHeal':
             return HealEvent(**attributes)
         
-        elif  event == '  LogItemAttach':
+        elif  event == 'LogItemAttach':
             return ItemAttachEvent(**attributes)
         
-        elif  event == '  LogItemDetach':
+        elif  event == 'LogItemDetach':
             return ItemDetachEvent(**attributes)
         
-        elif   event == ' LogItemDrop':
+        elif   event == 'LogItemDrop':
             return ItemDropEvent(**attributes)
         
-        elif   event == ' LogItemEquip':
+        elif   event == 'LogItemEquip':
             return ItemEquipEvent(**attributes)
         
-        elif   event == ' LogItemPickup':
+        elif   event == 'LogItemPickup':
             return ItemPickupEvent(**attributes)
         
-        elif   event == ' LogItemPickupFromCarepackage':
+        elif   event == 'LogItemPickupFromCarepackage':
             return ItemPickupFromCarePackageEvent(**attributes)
         
-        elif   event == ' LogItemPickupFromLootbox':
+        elif   event == 'LogItemPickupFromLootbox':
             return ItemPickupFromLootBoxEvent(**attributes)
         
-        elif   event == ' LogItemUnequip':
+        elif   event == 'LogItemUnequip':
             return ItemUnequipEvent(**attributes)
         
-        elif   event == '  LogItemUse':
+        elif   event == 'LogItemUse':
             return ItemUseEvent(**attributes)
         
         elif     event == 'LogMatchDefinition':
@@ -655,19 +655,19 @@ class EventFactory:
         elif     event == 'LogMatchEnd':
             return MatchEndEvent(**attributes)
         
-        elif   event == '  LogMatchStart':
+        elif   event == 'LogMatchStart':
             return MatchStartEvent(**attributes)
         
-        elif   event == '  LogObjectDestroy':
+        elif   event == 'LogObjectDestroy':
             return ObjectDestroyEvent(**attributes)
         
-        elif   event == '  LogParachuteLanding':
+        elif   event == 'LogParachuteLanding':
             return ParachuteLandingEvent(**attributes)
         
-        elif   event == '  LogPlayerAttack':
+        elif   event == 'LogPlayerAttack':
             return PlayerAttackEvent(**attributes)
         
-        elif   event == '  LogPlayerCreate':
+        elif   event == 'LogPlayerCreate':
             return PlayerCreateEvent(**attributes)
         
         elif event == 'LogPlayerKill':
@@ -676,7 +676,7 @@ class EventFactory:
         elif   event == 'LogPlayerLogin':
             return PlayerLoginEvent(**attributes)
         
-        elif   event == '  LogPlayerLogout':
+        elif   event == 'LogPlayerLogout':
             return PlayerLogoutEvent(**attributes)
          
         elif event == 'LogPlayerMakeGroggy':
@@ -700,17 +700,17 @@ class EventFactory:
         elif event == 'LogVaultStart':
             return VaultStartEvent(**attributes)
         
-        elif   event == '  LogVehicleDestroy':
+        elif   event == 'LogVehicleDestroy':
             return VehicleDestroyEvent(**attributes)
         
-        elif   event == '  LogVehicleLeave':
+        elif   event == 'LogVehicleLeave':
             return VehicleLeaveEvent(**attributes)
         
-        elif   event == '  LogVehicleRide':
+        elif   event == 'LogVehicleRide':
             return VehicleRideEvent(**attributes)
         
-        elif   event == '  LogWeaponFireCount':
+        elif   event == 'LogWeaponFireCount':
             return WeaponFireCountEvent(**attributes)
         
-        elif   event == '  LogWheelDestroy':
+        elif   event == 'LogWheelDestroy':
             return WheelDestroyEvent(**attributes)

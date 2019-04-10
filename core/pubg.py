@@ -2,6 +2,7 @@ import requests
 from constants.constants import URLS
 from models.models import *
 from telemetry.telemetry import Telemetry
+from utils.utils import save_json
 
 class PUBG:
     def __init__(self, key, platform):
@@ -266,12 +267,10 @@ class PUBG:
             
             return Tournament(**attrs)
             
-    def get_telemetry(self, asset_url, save_in_json = False, *args):
+    def get_telemetry(self, asset_url, save_in_json = False, path = '', *args):
         response = requests.get(asset_url)
         if save_in_json:
-            file = open('telemetry.json', 'w+')
-            file.write(response.text)
-            file.close()
+            save_json(path, response.text)
             
         return self.get_telemetry_from_json(response.json(), *args)
     
@@ -280,8 +279,7 @@ class PUBG:
     
     
     def get_status(self, save_in_json = False):
-        print(URLS.status_url)
-        response = requests.get(url=URLS.status_url.value)
+        response = requests.get(url=URLS.status_url.value, headers=self.header)
         
         if save_in_json:
             file = open('json/status.json', 'w+')
